@@ -1,6 +1,6 @@
 # Reward Points System
 
-### Features
+## Features
 
 #### 1. Member Management
 
@@ -53,13 +53,13 @@ POST /api/Coupon/redeem/{memberId} → Redeem points into coupons
 
 # How to Run
 
-### Clone repo:
+## Clone repo:
 
 git clone https://github.com/varneek/Reward-Points-System.git
 
 cd RewardPointsSystem
 
-### Configure database in appsettings.json
+## Configure database in appsettings.json
 
 "ConnectionStrings": {
 
@@ -67,8 +67,28 @@ cd RewardPointsSystem
   
 }
 
-### Run migrations & update DB:
+## Run migrations & update DB:
 
+Add-Migration InitialCreate
+
+Update-Database
+
+### Start project:
+
+### API runs at: 
+
+https://localhost:7298
+
+# Notes
+
+### JWT token must be included in request headers:
+
+Authorization: Bearer <your_token>
+
+### Default rule:
+
+₹100 purchase = 10 points
+100 points = ₹10 coupon
 
 
 

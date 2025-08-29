@@ -81,7 +81,8 @@ https://localhost:7298
 
 # Postman Collection
 
-[Uploading Reward Point System.postman_collection.json…]()
+https://ram-s-team-17.postman.co/workspace/Ram's-Workspace~06a92b38-355c-465c-811c-cbbc2303454c/request/47923558-3724ae71-14fe-4ecd-aeef-077d9638000f
+
 
 
 # Functional Flow Diagram

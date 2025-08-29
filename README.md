@@ -51,3 +51,8 @@ GET /api/Points/total/{memberId} → View total points
 
 POST /api/Coupon/redeem/{memberId} → Redeem points into coupons
 
+# How to Run
+
+## Clone repo:
+
+

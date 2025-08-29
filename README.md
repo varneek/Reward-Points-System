@@ -33,3 +33,21 @@
 | Otp | VARCHAR(10) | Dummy OTP for demo |
 | Point | INT | Points earned |
 
+# Sample Data 
+
+INSERT INTO Members (Name, Email, MobileNumber, Password, Otp)
+
+VALUES ('Test User', 'test@example.com', '9876543210', 'password', '1234');
+
+# API Endpoints
+
+POST /api/Auth/register → Register member
+
+POST /api/Auth/login → Login & get JWT
+
+POST /api/Points/add/{memberId} → Add points
+
+GET /api/Points/total/{memberId} → View total points
+
+POST /api/Coupon/redeem/{memberId} → Redeem points into coupons
+

@@ -79,6 +79,11 @@ Update-Database
 
 https://localhost:7298
 
+# Postman Collection
+
+[Uploading Reward Point System.postman_collection.json…]()
+
+
 # Functional Flow Diagram
 
 <img width="383" height="482" alt="image" src="https://github.com/user-attachments/assets/b10937d5-0c06-40c0-ba45-b98e978e93e8" />

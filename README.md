@@ -5,12 +5,15 @@
 ### 1. Member Management
 
   Register member with Name, Email, Mobile, Password (dummy OTP verification stored in DB).
+  
   Login using Mobile + Password.
+  
   JWT-based authentication.
 
 ### 2. Points Management
 
   Add points for purchases (₹100 = 10 points).
+  
   View total reward points for a member.
 
 ### 3. Coupons 

@@ -23,5 +23,10 @@
 | Column | Type | Notes |
 | :--- | :---: | ---: |
 | MemberId (PK) | INT (Identity) | Auto-increment primary key |
-| Name | 5 | $0.75 |
-| Banana | 12 | $0.50 |
+| Name | VARCHAR(100) | Member name |
+| Email | VARCHAR(100) | Unique |
+| MobileNumber | VARCHAR(10) | Unique |
+| Password | VARCHAR(225) | Password |
+| Otp | VARCHAR(10) | Dummy OTP for demo |
+| Point | INT | Points earned |
+

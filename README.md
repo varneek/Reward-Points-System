@@ -1,8 +1,8 @@
 # Reward Points System
 
-##Features
+### Features
 
-### 1. Member Management
+#### 1. Member Management
 
   Register member with Name, Email, Mobile, Password (dummy OTP verification stored in DB).
   
@@ -10,13 +10,13 @@
   
   JWT-based authentication.
 
-### 2. Points Management
+#### 2. Points Management
 
   Add points for purchases (₹100 = 10 points).
   
   View total reward points for a member.
 
-### 3. Coupons 
+#### 3. Coupons 
 
   Redeem points for coupons:
     100 points → ₹10 coupon
@@ -53,6 +53,22 @@ POST /api/Coupon/redeem/{memberId} → Redeem points into coupons
 
 # How to Run
 
-## Clone repo:
+### Clone repo:
+
+git clone https://github.com/varneek/Reward-Points-System.git
+
+cd RewardPointsSystem
+
+### Configure database in appsettings.json
+
+"ConnectionStrings": {
+
+  "DefaultConnection": "Host=localhost;Database=RewardDb;Username=youruser;Password=yourpassword"
+  
+}
+
+### Run migrations & update DB:
+
+
 
 

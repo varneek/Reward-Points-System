@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reward Points System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>🎁 Reward Points System</h1>
+
+    <div class="section">
+        <h2>1. Register Member</h2>
+        <input type="text" id="regName" placeholder="Name">
+        <input type="email" id="regEmail" placeholder="Email">
+        <input type="text" id="regMobile" placeholder="Mobile Number">
+        <input type="password" id="regPassword" placeholder="Password">
+        <button onclick="register()">Register</button>
+        <pre id="regResult"></pre>
+    </div>
+
+ 
+    <div class="section">
+        <h2>2. Login</h2>
+        <input type="text" id="loginMobile" placeholder="Mobile Number">
+        <input type="password" id="loginPassword" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <button onclick="logout()">Logout</button>
+        <pre id="loginResult"></pre>
+    </div>
+
+    <div class="section">
+        <h2>3. Add Points</h2>
+        <input type="number" id="purchaseAmount" placeholder="Purchase Amount (₹)">
+        <button onclick="addPoints()">Add Points</button>
+        <pre id="pointsResult"></pre>
+    </div>
+
+    <div class="section">
+        <h2>4. View Total Points</h2>
+        <button onclick="viewPoints()">View My Points</button>
+        <pre id="viewResult"></pre>
+    </div>
+
+
+    <div class="section">
+        <h2>5. Redeem Coupons</h2>
+        <input type="number" id="redeemOption" placeholder="Redeem Points(₹)">
+        <button onclick="redeemCoupon()">Redeem</button>
+        <pre id="redeemResult"></pre>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

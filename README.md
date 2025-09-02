@@ -83,7 +83,7 @@ https://localhost:7298
 
 ### A Postman collection is included:
 
-https://varneek-nagar2-3144184.postman.co/workspace/Varneek-Nagar's-Workspace~03ae9b68-cddf-4969-8d54-2d8af8fa81c2/example/48025099-6233862e-1ec4-4cef-b5f1-503d6fd8b4fc
+https://www.postman.com/varneek-nagar2-3144184/workspace/redeem-points/request/48025099-d4ecbc53-37d2-48b7-88ad-8d5a9253fb14?action=share&creator=48025099&ctx=documentation
 
 # Functional Flow Diagram
 

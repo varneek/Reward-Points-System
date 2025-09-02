@@ -2,53 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reward Points System</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>🎁 Reward Points System</h1>
 
-    <div class="section">
-        <h2>1. Register Member</h2>
-        <input type="text" id="regName" placeholder="Name">
-        <input type="email" id="regEmail" placeholder="Email">
-        <input type="text" id="regMobile" placeholder="Mobile Number">
-        <input type="password" id="regPassword" placeholder="Password">
-        <button onclick="register()">Register</button>
-        <pre id="regResult"></pre>
+    <div id="authScreen" class="screen active">
+        <h2>Reward Points System</h2>
+
+        <div class="card">
+            <h3>Register</h3>
+            <input type="text" id="regName" placeholder="Name">
+            <input type="email" id="regEmail" placeholder="Email">
+            <input type="text" id="regMobile" placeholder="Mobile Number">
+            <input type="password" id="regPassword" placeholder="Password">
+            <button onclick="register()">Register</button>
+            <pre id="regResult"></pre>
+        </div>
+
+        <div class="card">
+            <h3>Login</h3>
+            <input type="text" id="loginMobile" placeholder="Mobile Number">
+            <input type="password" id="loginPassword" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <pre id="loginResult"></pre>
+        </div>
     </div>
 
- 
-    <div class="section">
-        <h2>2. Login</h2>
-        <input type="text" id="loginMobile" placeholder="Mobile Number">
-        <input type="password" id="loginPassword" placeholder="Password">
-        <button onclick="login()">Login</button>
+
+    <div id="dashboard" class="screen">
+        <h2>Welcome to Rewards!</h2>
+        <button onclick="showScreen('pointsScreen')">View Points</button>
+        <button onclick="showScreen('addScreen')">Add Points</button>
+        <button onclick="showScreen('redeemScreen')">Redeem Coupon</button>
         <button onclick="logout()">Logout</button>
-        <pre id="loginResult"></pre>
     </div>
 
-    <div class="section">
-        <h2>3. Add Points</h2>
-        <input type="number" id="purchaseAmount" placeholder="Purchase Amount (₹)">
-        <button onclick="addPoints()">Add Points</button>
-        <pre id="pointsResult"></pre>
-    </div>
 
-    <div class="section">
-        <h2>4. View Total Points</h2>
-        <button onclick="viewPoints()">View My Points</button>
+    <div id="pointsScreen" class="screen">
+        <h2>Your Points</h2>
+        <button onclick="viewPoints()">Fetch Points</button>
         <pre id="viewResult"></pre>
+        <button onclick="showScreen('dashboard')">⬅ Back</button>
     </div>
 
 
-    <div class="section">
-        <h2>5. Redeem Coupons</h2>
-        <input type="number" id="redeemOption" placeholder="Redeem Points(₹)">
+    <div id="addScreen" class="screen">
+        <h2>Add Points</h2>
+        <input type="number" id="purchaseAmount" placeholder="Purchase Amount">
+        <button onclick="addPoints()">Add</button>
+        <pre id="pointsResult"></pre>
+        <button onclick="showScreen('dashboard')">⬅ Back</button>
+    </div>
+
+
+    <div id="redeemScreen" class="screen">
+        <h2>Redeem Coupon</h2>
+        <select id="redeemOption">
+            <option value="500">500 Points → ₹50 Coupon</option>
+            <option value="1000">1000 Points → ₹100 Coupon</option>
+        </select>
         <button onclick="redeemCoupon()">Redeem</button>
         <pre id="redeemResult"></pre>
+        <button onclick="showScreen('dashboard')">⬅ Back</button>
     </div>
 
-    <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

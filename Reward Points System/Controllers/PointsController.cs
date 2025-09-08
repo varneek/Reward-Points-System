@@ -19,7 +19,7 @@ namespace Reward_Points_System.Controllers
             var member = _db.Members.Find(memberId);
             if (member == null) return NotFound(new { Message = "Member not found" });
 
-            var pointsToAdd = (int)(req.Amount / 100m) * 10; 
+            var pointsToAdd = (int)(req.Amount / 100) * 10; 
             member.Points += pointsToAdd;
             _db.SaveChanges();
 

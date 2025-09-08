@@ -65,7 +65,6 @@ function logout() {
     showScreen("authScreen");
 }
 
-// ---------- POINTS ----------
 async function addPoints() {
     if (!token) return alert("Please login first!");
     const amount = parseInt(document.getElementById("purchaseAmount").value);
@@ -83,8 +82,8 @@ async function addPoints() {
     const data = await res.json();
     document.getElementById("pointsResult").textContent =
         data.totalPoints !== undefined
-            ? `✅ ₹${amount} purchase added. Current Points: ⭐ ${data.totalPoints}`
-            : `❌ Error: ${data.message || "Unable to add points"}`;
+            ? ` ₹${(amount/100)*10} purchase points added. Current Points: ${data.totalPoints}`
+            : ` Error: ${data.message || "Unable to add points"}`;
 }
 
 async function viewPoints() {
@@ -97,8 +96,8 @@ async function viewPoints() {
     const data = await res.json();
     document.getElementById("viewResult").textContent =
         data.totalPoints !== undefined
-        ? `❌ Error: ${data.message || "Unable to fetch points"}`
-        : `⭐ Your Total Points: ${data.points}`;
+        ? `Error: ${data.message || "Unable to fetch points"}`
+        : `Your Total Points: ${data.points}`;
 }
 
 async function redeemCoupon() {
@@ -119,10 +118,10 @@ async function redeemCoupon() {
     document.getElementById("redeemResult").textContent =
         data.couponValue
         ? `❌ Error: ${data.message || "Redeem failed"}`
-        : `🎁 Coupon Redeemed: ₹${data.coupon} (Used ${points} points)`;
+        : `Coupon Redeemed: ₹${data.coupon} (Used ${points} points)`;
 }
 
-// ---------- AUTO LOGIN ----------
+
 window.onload = () => {
     const savedToken = localStorage.getItem("token");
     const savedId = localStorage.getItem("memberId");

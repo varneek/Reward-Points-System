@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reward Points System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+        }
+        .input-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            color: #4a5568;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .input-group input:focus {
+            border-color: #6366f1;
+        }
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-primary {
+            background-color: #6366f1;
+        }
+        .btn-primary:hover {
+            background-color: #4f46e5;
+        }
+        .link {
+            color: #6366f1;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+        .message-box {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            color: white;
+            font-weight: 600;
+            z-index: 100;
+            transition: transform 0.3s ease-in-out;
+            transform: translateY(-200%);
+        }
+        .message-box.show {
+            transform: translateY(0);
+        }
+        .message-box.success {
+            background-color: #10b981;
+        }
+        .message-box.error {
+            background-color: #ef4444;
+        }
+        .points-box {
+            background-color: #f3f4f6;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        .points-box .points-label {
+            color: #4a5568;
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+        .points-box .points-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        @media (min-width: 640px) {
+            .action-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="app">
+
+        <!-- Login Page -->
+        <div id="login-page" class="card">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Login</h2>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="login-mobile">Mobile Number</label>
+                    <input type="text" id="login-mobile" placeholder="Enter mobile number" required>
+                </div>
+                <div class="input-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Log In</button>
+            </form>
+            <a id="show-register" class="link">Don't have an account? Register here</a>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="card hidden">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Register</h2>
+            <form id="register-form">
+                <div class="input-group">
+                    <label for="register-name">Name</label>
+                    <input type="text" id="register-name" placeholder="Enter your name" required>
+                </div>
+                <div class="input-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-group">
+                    <label for="register-mobile">Mobile Number</label>
+                    <input type="text" id="register-mobile" placeholder="Enter mobile number" required>
+                </div>
+                <div class="input-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" placeholder="Create a password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+            <a id="show-login" class="link">Already have an account? Login here</a>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="card hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-3xl font-bold text-gray-800" id="dashboard-welcome"></h2>
+                <button id="logout-btn" class="text-red-500 font-semibold text-sm hover:underline">Log Out</button>
+            </div>
+            
+            <div class="points-box">
+                <p class="points-label">Your Total Points</p>
+                <p class="points-value" id="total-points">0</p>
+            </div>
+
+            <div class="action-grid">
+                <div class="p-4 bg-indigo-50 rounded-lg">
+                    <h3 class="font-semibold text-lg text-indigo-800 mb-2">Add Points</h3>
+                    <input type="number" id="add-points-amount" class="w-full p-2 rounded-md border border-gray-300 mb-2" placeholder="Enter amount">
+                    <button id="add-points-btn" class="w-full bg-indigo-500 text-white font-medium py-2 rounded-md hover:bg-indigo-600 transition">Add</button>
+                </div>
+
+                <div class="p-4 bg-purple-50 rounded-lg">
+                    <h3 class="font-semibold text-lg text-purple-800 mb-2">Redeem Coupon</h3>
+                    <input type="number" id="redeem-points-amount" class="w-full p-2 rounded-md border border-gray-300 mb-2" placeholder="Enter points">
+                    <button id="redeem-points-btn" class="w-full bg-purple-500 text-white font-medium py-2 rounded-md hover:bg-purple-600 transition">Redeem</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Message Box -->
+    <div id="message-box" class="message-box"></div>
+
+    <script>
+        // Set your API base URL here. Ensure this matches the port your backend is running on.
+        const apiBaseUrl = 'https://localhost:7298/api'; 
+
+        // DOM Elements
+        const loginPage = document.getElementById('login-page');
+        const registerPage = document.getElementById('register-page');
+        const dashboardPage = document.getElementById('dashboard-page');
+        const showRegisterLink = document.getElementById('show-register');
+        const showLoginLink = document.getElementById('show-login');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const logoutBtn = document.getElementById('logout-btn');
+        const totalPointsEl = document.getElementById('total-points');
+        const dashboardWelcomeEl = document.getElementById('dashboard-welcome');
+        const addPointsBtn = document.getElementById('add-points-btn');
+        const redeemPointsBtn = document.getElementById('redeem-points-btn');
+        const addPointsAmountInput = document.getElementById('add-points-amount');
+        const redeemPointsAmountInput = document.getElementById('redeem-points-amount');
+        const messageBox = document.getElementById('message-box');
+
+        let memberId = null;
+        let authToken = null;
+
+        // Function to show a message
+        const showMessage = (message, type) => {
+            messageBox.textContent = message;
+            messageBox.className = `message-box show ${type}`;
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 3000);
+        };
+
+        // Function to switch between pages
+        const showPage = (page) => {
+            loginPage.classList.add('hidden');
+            registerPage.classList.add('hidden');
+            dashboardPage.classList.add('hidden');
+            document.getElementById(page).classList.remove('hidden');
+        };
+
+        // Event Listeners for page navigation
+        showRegisterLink.addEventListener('click', () => showPage('register-page'));
+        showLoginLink.addEventListener('click', () => showPage('login-page'));
+
+        // Handle Register Form Submission
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const mobileNumber = document.getElementById('register-mobile').value;
+            const password = document.getElementById('register-password').value;
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/Auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, mobileNumber, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    showMessage(data.message, 'success');
+                    showPage('login-page');
+                } else {
+                    showMessage(data.message || 'Registration failed', 'error');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.', 'error');
+            }
+        });
+
+        // Handle Login Form Submission
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const mobileNumber = document.getElementById('login-mobile').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/Auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mobileNumber, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    authToken = data.token;
+                    memberId = data.memberId;
+                    dashboardWelcomeEl.textContent = `Hello, ${data.name}!`;
+                    totalPointsEl.textContent = data.points;
+                    showMessage('Login successful!', 'success');
+                    showPage('dashboard-page');
+                } else {
+                    showMessage(data.message || 'Login failed', 'error');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.', 'error');
+            }
+        });
+
+        // Handle Logout
+        logoutBtn.addEventListener('click', () => {
+            authToken = null;
+            memberId = null;
+            showMessage('Logged out successfully!', 'success');
+            showPage('login-page');
+        });
+
+        // Handle Add Points
+        addPointsBtn.addEventListener('click', async () => {
+            const amount = addPointsAmountInput.value;
+            if (!amount || amount <= 0) {
+                showMessage('Please enter a valid amount', 'error');
+                return;
+            }
+            try {
+                const response = await fetch(`${apiBaseUrl}/Points/add/${memberId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ amount: parseFloat(amount) })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    showMessage(data.message, 'success');
+                    totalPointsEl.textContent = data.totalPoints;
+                    addPointsAmountInput.value = '';
+                } else {
+                    showMessage(data.message || 'Failed to add points', 'error');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.', 'error');
+            }
+        });
+
+        // Handle Redeem Points
+        redeemPointsBtn.addEventListener('click', async () => {
+            const pointsToRedeem = redeemPointsAmountInput.value;
+            if (!pointsToRedeem || pointsToRedeem <= 0) {
+                showMessage('Please enter a valid point amount', 'error');
+                return;
+            }
+            try {
+                const response = await fetch(`${apiBaseUrl}/Coupon/redeem/${memberId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ points: parseInt(pointsToRedeem) })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    showMessage(data.message, 'success');
+                    totalPointsEl.textContent = data.remainingPoints;
+                    redeemPointsAmountInput.value = '';
+                } else {
+                    showMessage(data.message || 'Failed to redeem coupon', 'error');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.', 'error');
+            }
+        });
+
+    </script>
+</body>
+</html>

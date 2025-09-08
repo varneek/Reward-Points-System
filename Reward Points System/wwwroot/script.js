@@ -2,13 +2,20 @@
 let token = null;
 let memberId = null;
 
-
+// ---------- SCREEN MANAGEMENT ----------
 function showScreen(screenId) {
     document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
     document.getElementById(screenId).classList.add("active");
+
+    // toggle nav
+    if (screenId === "dashboard") {
+        document.getElementById("navMenu").classList.remove("hidden");
+    } else {
+        document.getElementById("navMenu").classList.add("hidden");
+    }
 }
 
-
+// ---------- AUTH ----------
 async function register() {
     const body = {
         name: document.getElementById("regName").value,
@@ -24,10 +31,7 @@ async function register() {
     });
 
     const data = await res.json();
-    document.getElementById("regResult").textContent =
-        data.memberId
-            ? `✅ Registered successfully! Your Member ID: ${data.memberId}`
-            : `❌ Registration failed: ${data.message || "Unknown error"}`;
+    document.getElementById("regResult").textContent = data.message || JSON.stringify(data);
 }
 
 async function login() {
@@ -48,11 +52,10 @@ async function login() {
         memberId = data.memberId;
         localStorage.setItem("token", token);
         localStorage.setItem("memberId", memberId);
-        document.getElementById("loginResult").textContent = "✅ Logged in successfully!";
+        document.getElementById("loginResult").textContent = "✅ Logged in!";
         showScreen("dashboard");
     } else {
-        document.getElementById("loginResult").textContent =
-            `❌ Login failed: ${data.message || "Invalid credentials"}`;
+        document.getElementById("loginResult").textContent = data.message || "❌ Login failed";
     }
 }
 
@@ -61,15 +64,13 @@ function logout() {
     memberId = null;
     localStorage.removeItem("token");
     localStorage.removeItem("memberId");
-    document.getElementById("loginResult").textContent = "Logged out!";
-    showScreen("authScreen");
+    showScreen("loginScreen");
 }
 
-
+// ---------- POINTS ----------
 async function addPoints() {
     if (!token) return alert("Please login first!");
-    const amount = parseInt(document.getElementById("purchaseAmount").value);
-    const body = { amount };
+    const body = { amount: parseInt(document.getElementById("purchaseAmount").value) };
 
     const res = await fetch(`${apiBase}/Points/add/${memberId}`, {
         method: "POST",
@@ -81,30 +82,22 @@ async function addPoints() {
     });
 
     const data = await res.json();
-    document.getElementById("pointsResult").textContent =
-        data.totalPoints !== undefined
-            ? `✅ ₹${amount} purchase added. Current Points: ⭐ ${data.totalPoints}`
-            : `❌ Error: ${data.message || "Unable to add points"}`;
+    document.getElementById("pointsResult").textContent = `${data.message} | Total: ${data.totalPoints}`;
 }
 
 async function viewPoints() {
     if (!token) return alert("Please login first!");
-
     const res = await fetch(`${apiBase}/Points/total/${memberId}`, {
         headers: { "Authorization": "Bearer " + token }
     });
 
     const data = await res.json();
-    document.getElementById("viewResult").textContent =
-        data.totalPoints !== undefined
-            ? `❌ Error: ${data.message || "Unable to fetch points"}`
-            : `⭐ Your Total Points: ${data.points}`;
+    document.getElementById("viewResult").textContent = `👤 ${data.memberName} | ⭐ Points: ${data.points}`;
 }
 
 async function redeemCoupon() {
     if (!token) return alert("Please login first!");
-    const points = parseInt(document.getElementById("redeemOption").value);
-    const body = { points };
+    const body = { points: parseInt(document.getElementById("redeemOption").value) };
 
     const res = await fetch(`${apiBase}/Coupon/redeem/${memberId}`, {
         method: "POST",
@@ -116,12 +109,10 @@ async function redeemCoupon() {
     });
 
     const data = await res.json();
-    document.getElementById("redeemResult").textContent =
-        data.couponValue
-            ? `❌ Error: ${data.message || "Redeem failed"}`
-            : `🎁 Coupon Redeemed: ₹${data.coupon} (Used ${points} points)`;
+    document.getElementById("redeemResult").textContent = `${data.message} | Remaining: ${data.remainingPoints}`;
 }
 
+// ---------- SESSION RESTORE ----------
 window.onload = () => {
     const savedToken = localStorage.getItem("token");
     const savedId = localStorage.getItem("memberId");
@@ -132,6 +123,6 @@ window.onload = () => {
         showScreen("dashboard");
         document.getElementById("loginResult").textContent = "Session restored ✅";
     } else {
-        showScreen("authScreen");
+        showScreen("loginScreen");
     }
 };
